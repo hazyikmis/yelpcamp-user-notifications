@@ -74,6 +74,20 @@ router.get('/follow/:id', isLoggedIn, async function(req, res) {
   }
 });
 
+//unfollow user
+router.get("/unfollow/:id", middleware.isLoggedIn, async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id);
+        user.followers.pop(req.user._id);
+        user.save();
+        req.flash("success", `Successfully stopped following ${user.username}!`);
+        res.redirect('/users/' + req.params.id);
+    } catch (err) {
+        req.flash("error", err.message);
+        res.redirect("back");
+    }
+});
+
 // view all notifications
 router.get('/notifications', isLoggedIn, async function(req, res) {
   try {

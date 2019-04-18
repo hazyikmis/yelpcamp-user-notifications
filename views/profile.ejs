@@ -2,6 +2,13 @@
 
 <h1><%= user.username %>'s profile</h1>
 
-<a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
-
+<p>
+  <% if (currentUser && (user.id != currentUser._id)) { %>
+  <%      if (user.followers.indexOf(currentUser._id) >= 0) { %>
+             <a href="/unfollow/<%= user.id %>"><button class="btn btn-danger">Unfollow <%= user.username %></button></a>
+  <%      } else { %>            
+             <a href="/follow/<%= user.id %>"><button class="btn btn-success">Follow <%= user.username %></button></a>
+  <%      } %>                
+  <%  } %>                
+</p>
 <% include ./partials/footer %> 
